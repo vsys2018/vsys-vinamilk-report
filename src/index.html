@@ -59,6 +59,8 @@
                 </div>
               </div>
             </div>
+            <div>Tổng khối lượng: <span id="table1-sum">0</span></div>
+            <div style="margin-top: 5px;">Tổng thành tiền: <span id="table2-sum">0</span></div>
           </div>
 
           <div class="table-responsive">
@@ -76,6 +78,7 @@
                   <th>Thời gian</th>
                   <th>Loại thùng</th>
                   <th>Khối lượng</th>
+                  <th>Thành tiền</th>
                 </tr>
               </thead>
               <tfoot style="width: 100%">
@@ -87,6 +90,7 @@
                   <th>Thời gian</th>
                   <th>Loại thùng</th>
                   <th>Khối lượng</th>
+                  <th>Thành tiền</th>
                 </tr>
               </tfoot>
               <tbody></tbody>
@@ -119,7 +123,7 @@
           return total;
         };
 
-        const formatter = new Intl.NumberFormat("vi-VN", { style: "decimal" });
+        const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" });
         const timeformat = date => {
           const now = new Date(date),
             yyyy = now.getFullYear(),
@@ -165,7 +169,13 @@
               }
             },
             { data: "c6" },
-            { data: "c7" }
+            { data: "c7" },
+            {
+              data: "c9",
+              render: (data, type, row) => {
+                return formatter.format(data);
+              }
+            }
           ],
           processing: true,
           initComplete: function() {}
@@ -193,14 +203,16 @@
                 // Update table
                 table1.clear().draw();
                 table1.rows.add(res).draw();
-                let sum = res.sum("c1");
-                $("#table1-sum").text(formatter.format(sum));
+                let sum = res.sum("c7").toFixed(2);
+                $("#table1-sum").text(sum);
+                let sum2 = res.sum("c9");
+                $("#table2-sum").text(formatter.format(sum2));
 
                 table1.columns().every(function() {
                   var column = this;
                   var col = column.eq(0)[0];
-                  if (col == 6) {
-                    var select = $('<select class="form-control" disabled></select>').appendTo(
+                  if (col == 6 || col == 7) {
+                    $('<select class="form-control" disabled></select>').appendTo(
                       $(column.footer()).empty()
                     );
                   } else {
@@ -211,11 +223,16 @@
                       .on("change", function() {
                         var val = $.fn.dataTable.util.escapeRegex($(this).val());
                         let search = column.search(val ? "^" + val + "$" : "", true, false).draw();
-                        let newsum = search
+                        let newsum1 = search
                           .column(6, { filter: "applied" })
                           .data()
                           .sum();
-                        $("#table1-sum").text(formatter.format(newsum));
+                        $("#table1-sum").text(newsum1.toFixed(2));
+                        let newsum2 = search
+                          .column(7, { filter: "applied" })
+                          .data()
+                          .sum();
+                        $("#table2-sum").text(formatter.format(newsum2));
                       });
                     column
                       .data()
