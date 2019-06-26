@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/jquery-easy-loading/dist/jquery.loading.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css"
+      type="text/css"
+    />
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css" />
+  </head>
+
+  <body>
+    <div class="col-sm-12" style="margin-top: 15px;">
+      <div class="panel panel-default panel-table">
+        <div class="panel-heading">Thống kê nạp tiền</div>
+        <div class="panel-body">
+          <div class="table-filter">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-01-from">
+                    <span class="input-group-addon">
+                      Từ ngày
+                    </span>
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-01-to">
+                    <span class="input-group-addon">
+                      Đến ngày
+                    </span>
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>Tổng cộng: <span id="table1-sum">0</span></div>
+          </div>
+
+          <div class="table-responsive">
+            <table
+              id="table1"
+              class="table table-striped table-hover table-fw-widget"
+              style="width: 100%"
+            >
+              <thead style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Thời gian</th>
+                  <th>ID Thẻ</th>
+                  <th>Tên nhân viên</th>
+                  <th>Số điện thoại</th>
+                  <th>Lý do nạp tiền</th>
+                  <th>Tiền nạp</th>
+                </tr>
+              </thead>
+              <tfoot style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Thời gian</th>
+                  <th>ID Thẻ</th>
+                  <th>Tên nhân viên</th>
+                  <th>Số điện thoại</th>
+                  <th>Lý do nạp tiền</th>
+                  <th>Tiền nạp</th>
+                </tr>
+              </tfoot>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default panel-table">
+        <div class="panel-heading">Thống kê rút tiền</div>
+        <div class="panel-body">
+          <div class="table-filter">
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-02-from">
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                  <div class="input-group date" id="dtp-02-to">
+                    <input type="text" class="form-control" />
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div>Tổng cộng: <span id="table2-sum">0</span></div>
+          </div>
+          <div class="table-responsive">
+            <table
+              id="table2"
+              class="table table-striped table-hover table-fw-widget"
+              style="width: 100%"
+            >
+              <thead style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Thời gian</th>
+                  <th>Tên nhân viên</th>
+                  <th>Thao tác</th>
+                  <th>Tổng tiền lấy ra</th>
+                </tr>
+              </thead>
+              <tfoot style="width: 100%">
+                <tr>
+                  <th>Địa điểm</th>
+                  <th>Thời gian</th>
+                  <th>Tên nhân viên</th>
+                  <th>Thao tác</th>
+                  <th>Tổng tiền lấy ra</th>
+                </tr>
+              </tfoot>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+    <script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.19/api/sum().js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-easy-loading/dist/jquery.loading.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        Array.prototype.sum = function(prop) {
+          var total = 0;
+          for (var i = 0, _len = this.length; i < _len; i++) {
+            total += this[i][prop];
+          }
+          return total;
+        };
+
+        const formatter = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" });
+        const timeformat = date => {
+          const now = new Date(date),
+            yyyy = now.getFullYear(),
+            MM = now.getMonth() + 1,
+            dd = now.getDate(),
+            hh = now.getHours(),
+            mm = now.getMinutes();
+          const twoDigit = dg => {
+            return dg < 10 ? "0" + dg : dg;
+          };
+          return `${twoDigit(dd)}/${twoDigit(MM)}/${yyyy} ${twoDigit(hh)}:${twoDigit(mm)}`;
+        };
+
+        const beginMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+        const currentTime = new Date();
+
+        const id = "<%= data %>".split("-");
+        let filterquery = [];
+        id.forEach(i => filterquery.push({ c8: i }));
+
+        const dt1from = $("#dtp-01-from").datetimepicker({ locale: "vi", defaultDate: beginMonth });
+        const dt1to = $("#dtp-01-to").datetimepicker({ locale: "vi", defaultDate: currentTime });
+
+        const dt2from = $("#dtp-02-from").datetimepicker({ locale: "vi", defaultDate: beginMonth });
+        const dt2to = $("#dtp-02-to").datetimepicker({ locale: "vi", defaultDate: currentTime });
+
+        let data1 = [];
+
+        const table1 = $("#table1").DataTable({
+          buttons: ["excelHtml5", "pdfHtml5"],
+          pageLength: 10,
+          lengthMenu: [[6, 10, 25, 50, -1], [6, 10, 25, 50, "All"]],
+          dom:
+            "<'row be-datatable-body'<'col-sm-12'tr>>" +
+            "<'row be-datatable-footer'<'col-sm-3'i><'col-sm-2 text-right'B><'col-sm-7'p>>",
+          data: data1,
+          columns: [
+            { data: "c7" },
+            {
+              data: "t",
+              render: (data, type, row) => {
+                return timeformat(data);
+              }
+            },
+            { data: "c2" },
+            { data: "c3" },
+            { data: "c4" },
+            { data: "c5" },
+            {
+              data: "c1",
+              render: (data, type, row) => {
+                return formatter.format(data);
+              }
+            }
+          ],
+          processing: true,
+          initComplete: function() {}
+        });
+
+        const table2 = $("#table2").DataTable({
+          buttons: ["excelHtml5", "pdfHtml5"],
+          pageLength: 10,
+          lengthMenu: [[6, 10, 25, 50, -1], [6, 10, 25, 50, "All"]],
+          dom:
+            "<'row be-datatable-body'<'col-sm-12'tr>>" +
+            "<'row be-datatable-footer'<'col-sm-3'i><'col-sm-2 text-right'B><'col-sm-7'p>>",
+          data: data1,
+          columns: [
+            { data: "c6" },
+            {
+              data: "t",
+              render: (data, type, row) => {
+                return timeformat(data);
+              }
+            },
+            { data: "c1" },
+            { data: "c4" },
+            {
+              data: "c3",
+              render: (data, type, row) => {
+                return formatter.format(data);
+              }
+            }
+          ]
+        });
+
+        function getDataIn(from, to) {
+          $("#table1").loading();
+          fetch("/api/naptien01", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({
+              fromdate: from,
+              todate: to,
+              filter: filterquery
+            })
+          })
+            .then(res => {
+              return res.json();
+            })
+            .then(res => {
+              if (res.length > 0) {
+                // Update table
+                table1.clear().draw();
+                table1.rows.add(res).draw();
+                let sum = res.sum("c1");
+                $("#table1-sum").text(formatter.format(sum));
+
+                table1.columns().every(function() {
+                  var column = this;
+                  var col = column.eq(0)[0];
+                  if (col == 1 || col == 6) {
+                    var select = $('<select class="form-control" disabled></select>').appendTo(
+                      $(column.footer()).empty()
+                    );
+                  } else {
+                    var select = $(
+                      '<select class="form-control"><option value=""></option></select>'
+                    )
+                      .appendTo($(column.footer()).empty())
+                      .on("change", function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        let search = column.search(val ? "^" + val + "$" : "", true, false).draw();
+                        let newsum = search
+                          .column(6, { filter: "applied" })
+                          .data()
+                          .sum();
+                        $("#table1-sum").text(formatter.format(newsum));
+                      });
+                    column
+                      .data()
+                      .unique()
+                      .sort()
+                      .each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + "</option>");
+                      });
+                  }
+                });
+
+                $("#table1").loading("toggle");
+              } else {
+                table1.clear().draw();
+                $("#table1-sum").text(formatter.format(0));
+                table1.columns().every(function() {
+                  var column = this;
+                  var select = $(
+                    '<select class="form-control"><option value=""></option></select>'
+                  ).appendTo($(column.footer()).empty());
+                });
+                $("#table1").loading("toggle");
+              }
+            });
+        }
+
+        function getDataOut(from, to) {
+          $("#table2").loading();
+          fetch("/api/ruttien01", {
+            method: "POST",
+            credentials: "same-origin",
+            headers: { "Content-Type": "application/json" },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({
+              fromdate: from,
+              todate: to,
+              filter: filterquery
+            })
+          })
+            .then(res => {
+              return res.json();
+            })
+            .then(res => {
+              if (res.length > 0) {
+                // Update table
+                table2.clear().draw();
+                table2.rows.add(res).draw();
+                let sum = res.sum("c3");
+                $("#table2-sum").text(formatter.format(sum));
+                table2.columns().every(function() {
+                  var column = this;
+                  var col = column.eq(0)[0];
+                  if (col == 1 || col == 4) {
+                    var select = $('<select class="form-control" disabled></select>').appendTo(
+                      $(column.footer()).empty()
+                    );
+                  } else {
+                    var select = $(
+                      '<select class="form-control"><option value=""></option></select>'
+                    )
+                      .appendTo($(column.footer()).empty())
+                      .on("change", function() {
+                        var val = $.fn.dataTable.util.escapeRegex($(this).val());
+                        let search = column.search(val ? "^" + val + "$" : "", true, false).draw();
+                        let newsum = search
+                          .column(4, { filter: "applied" })
+                          .data()
+                          .sum();
+                        $("#table2-sum").text(formatter.format(newsum));
+                      });
+                    column
+                      .data()
+                      .unique()
+                      .sort()
+                      .each(function(d, j) {
+                        select.append('<option value="' + d + '">' + d + "</option>");
+                      });
+                  }
+                });
+
+                $("#table2").loading("toggle");
+              } else {
+                table2.clear().draw();
+                $("#table2-sum").text(formatter.format(0));
+                table2.columns().every(function() {
+                  var column = this;
+                  var select = $(
+                    '<select class="form-control"><option value=""></option></select>'
+                  ).appendTo($(column.footer()).empty());
+                });
+                $("#table2").loading("toggle");
+              }
+            });
+        }
+
+        getDataIn(beginMonth.toISOString(), currentTime.toISOString());
+        getDataOut(beginMonth.toISOString(), currentTime.toISOString());
+
+        dt1from.on("dp.change", e => {
+          let dtpto = $("#dtp-01-to")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(e.date._d);
+          let totime = new Date(dtpto._d);
+
+          getDataIn(fromtime.toISOString(), totime.toISOString());
+        });
+
+        dt1to.on("dp.change", e => {
+          let dtpfrom = $("#dtp-01-from")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(dtpfrom._d);
+          let totime = new Date(e.date._d);
+
+          getDataIn(fromtime.toISOString(), totime.toISOString());
+        });
+
+        dt2from.on("dp.change", e => {
+          let dtpto = $("#dtp-02-to")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(e.date._d);
+          let totime = new Date(dtpto._d);
+
+          getDataOut(fromtime.toISOString(), totime.toISOString());
+        });
+
+        dt2to.on("dp.change", e => {
+          let dtpfrom = $("#dtp-02-from")
+            .data("DateTimePicker")
+            .date();
+          let fromtime = new Date(dtpfrom._d);
+          let totime = new Date(e.date._d);
+
+          getDataOut(fromtime.toISOString(), totime.toISOString());
+        });
+      });
+    </script>
+  </body>
+</html>
