@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vsys2018/vsys-himoney-report.git"
+    "url": "git+https://github.com/vsys2018/vsys-vinamilk-report.git"
   },
   "author": "Tien1990",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/vsys2018/vsys-himoney-report/issues"
+    "url": "https://github.com/vsys2018/vsys-vinamilk-report/issues"
   },
-  "homepage": "https://github.com/vsys2018/vsys-himoney-report#readme",
+  "homepage": "https://github.com/vsys2018/vsys-vinamilk-report#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
     "ejs": "^2.6.1",
